@@ -183,8 +183,8 @@ RUN echo 'export JAVA_HOME="/opt/jdk"' >> /root/.bashrc && \
 ##ADD slaves /opt/hadoop/etc/hadoop
 
 # Install Spark 1.6.0
-RUN cd /opt && wget http://www.apache.org/dyn/closer.lua/spark/spark-2.0.0-preview/spark-2.0.0-preview-bin-hadoop2.7.tgz 
-RUN tar jxvf /opt/spark-2.0.0-preview-bin-hadoop2.7.tgz
+RUN cd /opt && wget https://dist.apache.org/repos/dist/release/spark/spark-2.0.0-preview/spark-2.0.0-preview-bin-hadoop2.7.tgz
+RUN tar zxvf /opt/spark-2.0.0-preview-bin-hadoop2.7.tgz
 #RUN gunzip -c /opt/spark-2.0.0-preview-bin-hadoop2.7.tgz | tar xvf -
 RUN rm  /opt/spark-2.0.0-preview-bin-hadoop2.7.tgz
 
