@@ -236,11 +236,11 @@ ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 
 # R pre-requisites
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apk update && \
+    apk add --no-cache --no-install-recommends \
     fonts-dejavu \
     gfortran \
-    gcc && apt-get clean
+    gcc && rm -rf /var/cache/apk/*
     
 # Install Python 3 packages
 ####RUN $CONDA_DIR/bin/conda install --yes \
