@@ -196,40 +196,40 @@ RUN rm  /opt/spark-2.0.0-preview-bin-hadoop2.7.tgz
 ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 
-RUN cd /opt && \
-    mkdir -p $CONDA_DIR && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.9.1-Linux-x86_64.sh && \
-    echo "6c6b44acdd0bc4229377ee10d52c8ac6160c336d9cdd669db7371aa9344e1ac3 *Miniconda3-3.9.1-Linux-x86_64.sh" | sha256sum -c - && \
-    /bin/bash Miniconda3-3.9.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda3-3.9.1-Linux-x86_64.sh && \
-    $CONDA_DIR/bin/conda install --yes conda==3.14.1
+###RUN cd /opt && \
+####    mkdir -p $CONDA_DIR && \
+####    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.9.1-Linux-x86_64.sh && \
+####    echo "6c6b44acdd0bc4229377ee10d52c8ac6160c336d9cdd669db7371aa9344e1ac3 *Miniconda3-3.9.1-Linux-x86_64.sh" | sha256sum -c - && \
+###3    /bin/bash Miniconda3-3.9.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+###3    rm Miniconda3-3.9.1-Linux-x86_64.sh && \
+####    $CONDA_DIR/bin/conda install --yes conda==3.14.1
 
 # Install Jupyter notebook 
-RUN $CONDA_DIR/bin/conda install --yes \
-    'notebook=4.1*' \
-    terminado \
-    && $CONDA_DIR/bin/conda clean -yt
+####RUN $CONDA_DIR/bin/conda install --yes \
+####    'notebook=4.1*' \
+####    terminado \
+####    && $CONDA_DIR/bin/conda clean -yt
 
 # Scala Spark kernel (build and cleanup)
-RUN cd /tmp && \
-    echo deb http://dl.bintray.com/sbt/debian / > /etc/apt/sources.list.d/sbt.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv 99E82A75642AC823 && \
-    apt-get update && \
-    git clone https://github.com/apache/incubator-toree.git && \
-    apt-get install -yq --force-yes --no-install-recommends sbt && \
-    cd incubator-toree && \
-    git checkout 846292233c && \
-    make dist SHELL=/bin/bash && \
-    mv dist/toree-kernel /opt/toree-kernel && \
-    chmod +x /opt/toree-kernel && \
-    rm -rf ~/.ivy2 && \
-    rm -rf ~/.sbt && \
-    rm -rf /tmp/incubator-toree && \
-    apt-get remove -y sbt && \
-    apt-get clean
+###RUN cd /tmp && \
+###   echo deb http://dl.bintray.com/sbt/debian / > /etc/apt/sources.list.d/sbt.list && \
+###    apt-key adv --keyserver keyserver.ubuntu.com --recv 99E82A75642AC823 && \
+###    apt-get update && \
+###    git clone https://github.com/apache/incubator-toree.git && \
+###    apt-get install -yq --force-yes --no-install-recommends sbt && \
+###    cd incubator-toree && \
+###    git checkout 846292233c && \
+###    make dist SHELL=/bin/bash && \
+###    mv dist/toree-kernel /opt/toree-kernel && \
+###    chmod +x /opt/toree-kernel && \
+###    rm -rf ~/.ivy2 && \
+###    rm -rf ~/.sbt && \
+###    rm -rf /tmp/incubator-toree && \
+###    apt-get remove -y sbt && \
+###    apt-get clean
  
 # Spark and Mesos pointers
-ENV SPARK_HOME /opt/spark-1.6.0-bin-hadoop2.6
+ENV SPARK_HOME /opt/spark-2.0.0-preview-bin-hadoop2.7
 ENV R_LIBS_USER $SPARK_HOME/R/lib
 ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip
 #ENV MESOS_NATIVE_LIBRARY /usr/local/lib/libmesos.so
@@ -243,52 +243,52 @@ RUN apt-get update && \
     gcc && apt-get clean
     
 # Install Python 3 packages
-RUN $CONDA_DIR/bin/conda install --yes \
-    'ipywidgets=4.0*' \
-    'pandas=0.17*' \
-    'matplotlib=1.4*' \
-    'scipy=0.16*' \
-    'seaborn=0.6*' \
-    'scikit-learn=0.16*' 
+####RUN $CONDA_DIR/bin/conda install --yes \
+####    'ipywidgets=4.0*' \
+####    'pandas=0.17*' \
+####    'matplotlib=1.4*' \
+####    'scipy=0.16*' \
+####    'seaborn=0.6*' \
+###    'scikit-learn=0.16*' 
     
-RUN $CONDA_DIR/bin/conda clean -yt
+####RUN $CONDA_DIR/bin/conda clean -yt
 
 # Install Python 2 packages
-RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python2 python=2.7 \
-    'ipython=4.0*' \
-    'ipywidgets=4.0*' \
-    'pandas=0.17*' \
-    'matplotlib=1.4*' \
-    'scipy=0.16*' \
-    'seaborn=0.6*' \
-    'scikit-learn=0.16*' \
-    pyzmq \
-    && $CONDA_DIR/bin/conda clean -yt
+###RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python2 python=2.7 \
+###    'ipython=4.0*' \
+###    'ipywidgets=4.0*' \
+###    'pandas=0.17*' \
+###    'matplotlib=1.4*' \
+###    'scipy=0.16*' \
+###    'seaborn=0.6*' \
+###    'scikit-learn=0.16*' \
+###    pyzmq \
+###    && $CONDA_DIR/bin/conda clean -yt
 
 # R packages
-RUN $CONDA_DIR/bin/conda config --add channels r
-RUN $CONDA_DIR/bin/conda install --yes \
-    'r-base=3.2*' \
-    'r-irkernel=0.5*' \
-    'r-ggplot2=1.0*' \
-    'r-rcurl=1.95*' && $CONDA_DIR/bin/conda clean -yt
+###RUN $CONDA_DIR/bin/conda config --add channels r
+###RUN $CONDA_DIR/bin/conda install --yes \
+###    'r-base=3.2*' \
+###    'r-irkernel=0.5*' \
+###    'r-ggplot2=1.0*' \
+###    'r-rcurl=1.95*' && $CONDA_DIR/bin/conda clean -yt
 
 # Scala Spark kernel spec
-RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
-COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
+###RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
+###COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
 
 # Activate Python2 kernel
-RUN bash -c '. activate python2 && \
-    python -m ipykernel.kernelspec --prefix=$CONDA_DIR && \
-    . deactivate'
+###RUN bash -c '. activate python2 && \
+###    python -m ipykernel.kernelspec --prefix=$CONDA_DIR && \
+ ###   . deactivate'
     
-RUN apt-get install jq
+###RUN apt-get install jq
 
 # Set PYSPARK_HOME in the python2 spec
-RUN jq --arg v "$CONDA_DIR/envs/python2/bin/python" \
-        '.["env"]["PYSPARK_PYTHON"]=$v' \
-        $CONDA_DIR/share/jupyter/kernels/python2/kernel.json > /tmp/kernel.json && \
-        mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python2/kernel.json
+###RUN jq --arg v "$CONDA_DIR/envs/python2/bin/python" \
+   ###     '.["env"]["PYSPARK_PYTHON"]=$v' \
+      ###  $CONDA_DIR/share/jupyter/kernels/python2/kernel.json > /tmp/kernel.json && \
+        ###mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python2/kernel.json
 
 
 EXPOSE 22 7077 8020 8030 8031 8032 8033 8040 8042 8080 8088 8888 9200 9300 10000 50010 50020 50060 50070 50075 50090
@@ -296,11 +296,11 @@ ADD entrypoint.sh /opt/entrypoint.sh
 
 RUN chmod 777 /opt/entrypoint.sh
 
-RUN mv spark-1.6.0-bin-hadoop2.6 /opt/
+RUN mv  /opt/spark-2.0.0-preview-bin-hadoop2.7
 
-ADD spark-defaults.conf /opt/spark-1.6.0-bin-hadoop2.6/conf/spark-defaults.conf.template
-RUN sed s/HOSTNAME/$HOSTNAME/ /opt/spark-1.6.0-bin-hadoop2.6/conf/spark-defaults.conf.template > /opt/spark-1.6.0-bin-hadoop2.6/conf/spark-defaults.conf
+ADD spark-defaults.conf /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf.template
+RUN sed s/HOSTNAME/$HOSTNAME/ /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf.template > /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf
 
-ADD spark-env.sh /opt/spark-1.6.0-bin-hadoop2.6/conf/spark-env.sh
+ADD spark-env.sh /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-env.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
