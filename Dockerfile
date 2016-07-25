@@ -237,8 +237,7 @@ ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M -
 
 # R pre-requisites
 RUN apk update && \
-    apk add --no-cache fonts-dejavu \
-    gfortran \
+    apk add --no-cache gfortran \
     gcc && rm -rf /var/cache/apk/*
     
 # Install Python 3 packages
