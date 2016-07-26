@@ -194,7 +194,7 @@ RUN rm  /opt/spark-2.0.0-preview-bin-hadoop2.7.tgz
 
 #Install Anaconda 3.14.1
 ENV CONDA_DIR /opt/conda
-ENV PATH $CONDA_DIR/bin:$PATH
+ENV PATH $CONDA_DIR/bin:$PATHhttps://github.com/cristina-grosu/spark-preview
 
 ###RUN cd /opt && \
 ####    mkdir -p $CONDA_DIR && \
@@ -294,7 +294,7 @@ ADD entrypoint.sh /opt/entrypoint.sh
 
 RUN chmod 777 /opt/entrypoint.sh
 
-RUN mv  /opt/spark-2.0.0-preview-bin-hadoop2.7
+RUN mv  spark-2.0.0-preview-bin-hadoop2.7 /opt/
 
 ADD spark-defaults.conf /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf.template
 RUN sed s/HOSTNAME/$HOSTNAME/ /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf.template > /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf
