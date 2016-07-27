@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SPARK_HOME="/opt/spark-1.6.0-bin-hadoop2.6"
+SPARK_HOME="/opt/spark-2.0.0-preview-bin-hadoop2.7"
 HADOOP_HOME="opt/hadoop"
 HADOOP_SBIN_DIR="opt/hadoop/sbin"
 HADOOP_CONF_DIR="opt/hadoop/etc/hadoop"
