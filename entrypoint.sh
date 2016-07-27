@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-#SPARK_HOME=`realpath /opt/spark/spark-*/`
-#SPARK_HOME=`readlink -f /opt/spark*/`
 SPARK_HOME="/opt/spark-1.6.0-bin-hadoop2.6"
 HADOOP_HOME="opt/hadoop"
 HADOOP_SBIN_DIR="opt/hadoop/sbin"
@@ -44,6 +41,8 @@ fi
 if [ "$HOSTNAME" = "" ]; then
   HOSTNAME=`hostname -f`
 fi
+
+sed "s/HOSTNAME/$SPARK_MASTER_HOSTNAME/" /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf.template > /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf
 
 SPARK_MASTER_URL="spark://$SPARK_MASTER_HOSTNAME:$SPARK_MASTER_PORT"
 echo "Using SPARK_MASTER_URL=$SPARK_MASTER_URL"
