@@ -43,6 +43,8 @@ if [ "$HOSTNAME" = "" ]; then
 fi
 
 sed "s/HOSTNAME_MASTER/$SPARK_MASTER_HOSTNAME/" /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf.template > /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf
+sed "s/HOSTNAME/$SPARK_MASTER_HOSTNAME/" /opt/spark-2.0.0-bin-hadoop2.7/conf/core-site.xml.template > /opt/spark-2.0.0-bin-hadoop2.7/conf/core-site.xml
+sed "s/HOSTNAME/$HOSTNAME_MASTER/" /opt/spark-2.0.0-bin-hadoop2.7/conf/yarn-site.xml.template > /opt/spark-2.0.0-bin-hadoop2.7/conf/yarn-site.xml	
 
 SPARK_MASTER_URL="spark://$SPARK_MASTER_HOSTNAME:$SPARK_MASTER_PORT"
 echo "Using SPARK_MASTER_URL=$SPARK_MASTER_URL"
