@@ -1,10 +1,10 @@
 #!/bin/bash
 
-SPARK_HOME="/opt/spark-2.0.0-preview-bin-hadoop2.7"
-HADOOP_HOME="opt/hadoop"
-HADOOP_SBIN_DIR="opt/hadoop/sbin"
-HADOOP_CONF_DIR="opt/hadoop/etc/hadoop"
-YARN_CONF_DIR="/opt/hadoop/etc/hadoop"
+SPARK_HOME="/opt/spark-2.0.0-bin-hadoop2.7"
+#HADOOP_HOME="opt/hadoop"
+#HADOOP_SBIN_DIR="opt/hadoop/sbin"
+HADOOP_CONF_DIR="/opt/spark-2.0.0-bin-hadoop2.7/conf"
+YARN_CONF_DIR="/opt/spark-2.0.0-bin-hadoop2.7/conf"
 
 echo Using SPARK_HOME=$SPARK_HOME
 
@@ -42,7 +42,7 @@ if [ "$HOSTNAME" = "" ]; then
   HOSTNAME=`hostname -f`
 fi
 
-sed "s/HOSTNAME/$SPARK_MASTER_HOSTNAME/" /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf.template > /opt/spark-2.0.0-preview-bin-hadoop2.7/conf/spark-defaults.conf
+sed "s/HOSTNAME_MASTER/$SPARK_MASTER_HOSTNAME/" /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf.template > /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf
 
 SPARK_MASTER_URL="spark://$SPARK_MASTER_HOSTNAME:$SPARK_MASTER_PORT"
 echo "Using SPARK_MASTER_URL=$SPARK_MASTER_URL"
