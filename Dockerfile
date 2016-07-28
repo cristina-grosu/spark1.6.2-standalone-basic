@@ -181,6 +181,8 @@ FROM mcristinagrosu/hdfs-preview
 ##RUN sed s/HOSTNAME/$HOSTNAME/ /opt/hadoop/etc/hadoop/yarn-site.xml.template > /opt/hadoop/etc/hadoop/yarn-site.xml
 
 ##ADD slaves /opt/hadoop/etc/hadoop
+RUN cp /opt/hadoop/etc/hadoop/core-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
+RUN cp /opt/hadoop/etc/hadoop/yarn-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
 
 ADD entrypoint.sh /opt/entrypoint.sh
 RUN chmod 777 /opt/entrypoint.sh
