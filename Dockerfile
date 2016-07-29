@@ -21,6 +21,7 @@ ADD spark-defaults.conf /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf.
 ADD spark-env.sh /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-env.sh
 
 RUN cp /opt/hadoop/etc/hadoop/yarn-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
+RUN cp /opt/hadoop/etc/hadoop/mapred-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
 RUN cp /opt/hadoop/etc/hadoop/capacity-scheduler.xml /opt/spark-2.0.0-bin-hadoop2.7/conf/
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
