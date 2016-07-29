@@ -293,7 +293,7 @@ RUN mv  spark-2.0.0-bin-hadoop2.7 /opt/
 
 ADD spark-defaults.conf /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf.template
 ADD spark-env.sh /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-env.sh
-#RUN cp /opt/hadoop/etc/hadoop/core-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
+RUN cp /opt/hadoop/etc/hadoop/core-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
 RUN cp /opt/hadoop/etc/hadoop/yarn-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
 
 
