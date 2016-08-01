@@ -24,4 +24,6 @@ RUN cp /opt/hadoop/etc/hadoop/yarn-site.xml.template /opt/spark-2.0.0-bin-hadoop
 RUN cp /opt/hadoop/etc/hadoop/mapred-site.xml.template /opt/spark-2.0.0-bin-hadoop2.7/conf
 RUN cp /opt/hadoop/etc/hadoop/capacity-scheduler.xml /opt/spark-2.0.0-bin-hadoop2.7/conf/
 
+EXPOSE 4040 4041 4042 7077 8042
+
 ENTRYPOINT ["/opt/entrypoint.sh"]
