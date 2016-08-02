@@ -1,4 +1,4 @@
-FROM mcristinagrosu/bigstep_java
+FROM mcristinagrosu/bigstepinc_java_8
 
 # Install Spark 2.0.0
 RUN cd /opt && wget http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz
