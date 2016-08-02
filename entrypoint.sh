@@ -8,8 +8,6 @@ echo Using SPARK_HOME=$SPARK_HOME
 
 . "${SPARK_HOME}/bin/load-spark-env.sh"
 
-. "/root/.bashrc"
-
 if [ "$SPARK_MASTER_PORT" = "" ]; then
   SPARK_MASTER_PORT=7077
 fi
@@ -30,6 +28,14 @@ if [ "$SPARK_WORKER_PORT" = "" ]; then
   SPARK_WORKER_PORT=8581
 fi
 
+if [ "$CORES" = "" ]; then
+  CORES=1
+fi
+
+if [ "$MEM" = "" ]; then
+  MEM=1g
+fi
+
 if [ "$SPARK_MASTER_HOSTNAME" = "" ]; then
   SPARK_MASTER_HOSTNAME=`hostname -f`
 fi
@@ -48,7 +54,7 @@ if [ "$MODE" == "master" ]; then
 	${SPARK_HOME}/bin/spark-class "org.apache.spark.deploy.master.Master" --ip $SPARK_MASTER_IP --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT
 
 elif [ "$MODE" == "worker" ]; then
-	${SPARK_HOME}/bin/spark-class "org.apache.spark.deploy.worker.Worker" --webui-port $SPARK_WORKER_WEBUI_PORT --port $SPARK_WORKER_PORT $SPARK_MASTER_URL
+	${SPARK_HOME}/bin/spark-class "org.apache.spark.deploy.worker.Worker" --webui-port $SPARK_WORKER_WEBUI_PORT --port $SPARK_WORKER_PORT $SPARK_MASTER_URL -c $CORES -m $MEM
 else
 	${SPARK_HOME}/bin/spark-class "org.apache.spark.deploy.master.Master" --ip $SPARK_MASTER_IP --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT &
 	${SPARK_HOME}/bin/spark-class "org.apache.spark.deploy.worker.Worker" --webui-port $SPARK_WORKER_WEBUI_PORT --port $SPARK_WORKER_PORT $SPARK_MASTER_URL	
