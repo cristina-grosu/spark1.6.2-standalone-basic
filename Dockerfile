@@ -23,7 +23,7 @@ ENV PATH $CONDA_DIR/bin:$PATH
 
 RUN cd /opt && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet -y http://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
+    wget --quiet http://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
     /bin/bash Anaconda2-4.1.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Anaconda2-4.1.1-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --yes conda
