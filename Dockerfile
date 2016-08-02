@@ -18,7 +18,22 @@ RUN chmod 777 /opt/entrypoint.sh
 ADD spark-defaults.conf /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf.template
 ADD spark-env.sh /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-env.sh
 
-#        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST
-EXPOSE    7077        8080              8081              6066
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+
+RUN cd /opt && \
+    mkdir -p $CONDA_DIR && \
+    wget --quiet -y http://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
+    /bin/bash Anaconda2-4.1.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Anaconda2-4.1.1-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda install --yes conda
+
+RUN $CONDA_DIR/bin/conda install --yes \
+    'notebook' \
+    terminado \
+    && $CONDA_DIR/bin/conda clean -yt
+
+#        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
+EXPOSE    7077        8080              8081              6066    8888 
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
