@@ -18,7 +18,7 @@ RUN chmod 777 /opt/entrypoint.sh
 ADD spark-defaults.conf /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-defaults.conf.template
 ADD spark-env.sh /opt/spark-2.0.0-bin-hadoop2.7/conf/spark-env.sh
 
-#        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI
-EXPOSE    7077        8080              8081
+#        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST
+EXPOSE    7077        8080              8081              6066
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
