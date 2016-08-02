@@ -28,7 +28,7 @@ RUN cd /opt && \
     rm Anaconda2-4.1.1-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --yes conda
 
-RUN apk add --update gcc
+RUN apk add --update alpine-sdk
 
 RUN $CONDA_DIR/bin/conda install --yes 'notebook' && \ 
     $CONDA_DIR/bin/conda clean -yt
