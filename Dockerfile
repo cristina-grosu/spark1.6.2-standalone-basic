@@ -86,8 +86,9 @@ RUN $CONDA_DIR/bin/conda install --yes \
     'matplotlib' \
     'scipy' \
     'seaborn' \
-    'scikit-learn' \
-    && $CONDA_DIR/bin/conda clean -yt
+    'scikit-learn' 
+    
+RUN $CONDA_DIR/bin/conda clean -yt
 
 RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
     'ipython' \
