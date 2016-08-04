@@ -29,9 +29,9 @@ ENV PATH $CONDA_DIR/bin:$PATH
 # Install Miniconda2
 RUN cd /opt && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh && \
-    /bin/bash Miniconda3-4.1.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda3-4.1.11-Linux-x86_64.sh && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda2-4.1.11-Linux-x86_64.sh && \
+    /bin/bash Miniconda2-4.1.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda2-4.1.11-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --yes conda
 
 # Install Jupyter notebook 
@@ -60,15 +60,15 @@ RUN cd /tmp && \
     
 #Install Python3 packages
 RUN $CONDA_DIR/bin/conda install --yes \
-    'ipywidgets=4.0*' \
-    'pandas=0.17*' \
-    'matplotlib=1.4*' \
-    'scipy=0.16*' \
-    'seaborn=0.6*' \
-    'scikit-learn=0.16*' \
+    'ipywidgets' \
+    'pandas' \
+    'matplotlib' \
+    'scipy' \
+    'seaborn' \
+    'scikit-learn' \
     && $CONDA_DIR/bin/conda clean -yt
 
-RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python2 python=2.7 \
+RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
     'ipython' \
     'ipywidgets' \
     'pandas' \
@@ -94,7 +94,7 @@ RUN bash -c '. activate python2 && \
 RUN apk add jq
 
 # Set PYSPARK_HOME in the python2 spec
-RUN jq --arg v "$CONDA_DIR/envs/python2/bin/python" \
+RUN jq --arg v "$CONDA_DIR/envs/python3/bin/python" \
         '.["env"]["PYSPARK_PYTHON"]=$v' \
         $CONDA_DIR/share/jupyter/kernels/python2/kernel.json > /tmp/kernel.json && \
         mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python2/kernel.json
