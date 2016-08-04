@@ -62,23 +62,6 @@ RUN cd /tmp && \
     chmod +x /opt/toree-kernel && \
     rm -rf /tmp/incubator-toree 
     
-#RUN cd /tmp && \
-#    echo deb http://dl.bintray.com/sbt/debian / > /etc/apt/sources.list.d/sbt.list && \
-#    apt-key adv --keyserver keyserver.ubuntu.com --recv 99E82A75642AC823 && \
-#    apt-get update && \
-#    git clone https://github.com/apache/incubator-toree.git && \
-#    apt-get install -yq --force-yes --no-install-recommends sbt && \
-#    cd incubator-toree && \
-#    git checkout 846292233c && \
-#    make dist SHELL=/bin/bash && \
-#    mv dist/toree-kernel /opt/toree-kernel && \
-#    chmod +x /opt/toree-kernel && \
-#    rm -rf ~/.ivy2 && \
-#    rm -rf ~/.sbt && \
-#    rm -rf /tmp/incubator-toree && \
-#    apt-get remove -y sbt && \
-#    apt-get clean
-    
 #Install Python3 packages
 RUN $CONDA_DIR/bin/conda install --yes \
     'ipywidgets' \
@@ -105,7 +88,9 @@ RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/R \
     'r-base' \
     'r-irkernel' \
     'r-ggplot2' \
-    'r-rcurl' && $CONDA_DIR/bin/conda clean -yt
+    'r-rcurl' 
+    
+RUN $CONDA_DIR/bin/conda clean -yt
     
 RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
 COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
