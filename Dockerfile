@@ -2,6 +2,9 @@ FROM mcristinagrosu/bigstepinc_java_8
 
 RUN apk add --update alpine-sdk
 
+RUN locale-gen en_US.UTF-8 && \
+    echo 'LANG="en_US.UTF-8"' > /etc/default/locale
+
 # Install Spark 2.0.0
 RUN cd /opt && wget http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz
 RUN tar xzvf /opt/spark-2.0.0-bin-hadoop2.7.tgz
@@ -43,6 +46,30 @@ RUN $CONDA_DIR/bin/conda install --yes \
 #    /bin/bash /opt/Anaconda2-4.1.1-Linux-x86_64.sh -b -f -p /opt/conda/ && \
 #    rm Anaconda2-4.1.1-Linux-x86_64.sh && \
 #    $CONDA_DIR/bin/conda install --yes conda
+
+RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
+    'ipython' \
+    'ipywidgets' \
+    'pandas' \
+    'matplotlib' \
+    'scipy' \
+    'seaborn' \
+    'scikit-learn' \
+    && $CONDA_DIR/bin/conda clean -yt
+
+RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/R \
+    'r-base' \
+    'r-irkernel' \
+    'r-ggplot2' \
+    'r-rcurl' && $CONDA_DIR/bin/conda clean -yt
+    
+RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
+COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
+
+RUN bash -c '. activate python3 && \
+    python -m ipykernel.kernelspec --prefix=$CONDA_DIR && \
+    . deactivate'
+    
 
 
 #        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
