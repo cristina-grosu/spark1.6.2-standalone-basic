@@ -2,8 +2,8 @@ FROM mcristinagrosu/bigstepinc_java_8
 
 RUN apk add --update alpine-sdk
 
-RUN locale-gen en_US.UTF-8 && \
-    echo 'LANG="en_US.UTF-8"' > /etc/default/locale
+#RUN locale-gen en_US.UTF-8 && \
+#    echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 
 # Install Spark 2.0.0
 RUN cd /opt && wget http://d3kbcqa49mib13.cloudfront.net/spark-2.0.0-bin-hadoop2.7.tgz
@@ -29,9 +29,9 @@ ENV PATH $CONDA_DIR/bin:$PATH
 # Install Miniconda2
 RUN cd /opt && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda2-4.1.11-Linux-x86_64.sh && \
-    /bin/bash Miniconda2-4.1.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda2-4.1.11-Linux-x86_64.sh && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.1.11-Linux-x86_64.sh && \
+    /bin/bash Miniconda3-4.1.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-4.1.11-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --yes conda
 
 # Install Jupyter notebook 
@@ -57,8 +57,18 @@ RUN cd /tmp && \
     rm -rf /tmp/incubator-toree && \
     apt-get remove -y sbt && \
     apt-get clean
+    
+#Install Python3 packages
+RUN $CONDA_DIR/bin/conda install --yes \
+    'ipywidgets=4.0*' \
+    'pandas=0.17*' \
+    'matplotlib=1.4*' \
+    'scipy=0.16*' \
+    'seaborn=0.6*' \
+    'scikit-learn=0.16*' \
+    && $CONDA_DIR/bin/conda clean -yt
 
-RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
+RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python2 python=2.7 \
     'ipython' \
     'ipywidgets' \
     'pandas' \
@@ -77,11 +87,18 @@ RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/R \
 RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
 COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
 
-RUN bash -c '. activate python3 && \
+RUN bash -c '. activate python2 && \
     python -m ipykernel.kernelspec --prefix=$CONDA_DIR && \
     . deactivate'
-    
 
+RUN apk add jq
+
+# Set PYSPARK_HOME in the python2 spec
+RUN jq --arg v "$CONDA_DIR/envs/python2/bin/python" \
+        '.["env"]["PYSPARK_PYTHON"]=$v' \
+        $CONDA_DIR/share/jupyter/kernels/python2/kernel.json > /tmp/kernel.json && \
+        mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python2/kernel.json
+   
 
 #        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
 EXPOSE    7077        8080              8081              6066    8888 
