@@ -95,7 +95,7 @@ RUN $CONDA_DIR/bin/conda clean -yt
 RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
 COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
 
-RUN bash -c '. activate python2 && \
+RUN bash -c '. activate python3 && \
     python -m ipykernel.kernelspec --prefix=$CONDA_DIR && \
     . deactivate'
 
