@@ -109,12 +109,10 @@ RUN jq --arg v "$CONDA_DIR/envs/python3/bin/python" \
         $CONDA_DIR/share/jupyter/kernels/python3/kernel.json > /tmp/kernel.json && \
         mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python3/kernel.json
         
-#RUN jq --arg v "$CONDA_DIR/envs/R/bin/R" \
-#        '.["env"]["PYSPARK_PYTHON"]=$v' \
-#        $CONDA_DIR/envs/R/share/jupyter/kernels/ir/kernel.json > /tmp/kernel.json && \
-#        mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/R/kernel.json
-
-#RUN cp $CONDA_DIR/pkgs/r-irkernel-0.6.1-r3.3.1_0/share/jupyter/kernels/ir/kernel.json $CONDA_DIR/share/jupyter/kernels/ir/kernel.json   
+# Install git
+RUN apk add --no-cache git
+RUN mkdir $CONDA_DIR/extensions
+RUN git clone https://github.com/Lab41/sunny-side-up/tree/master/frameworks/docker/keras-cuda-jupyter/config/jupyter/extensions $CONDA_DIR/extensions
 
 #        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
 EXPOSE    7077        8080              8081              6066    8888 
