@@ -114,21 +114,22 @@ RUN apk add --no-cache git
 RUN mkdir $CONDA_DIR/extensions && cd $CONDA_DIR/extensions
 RUN git clone https://github.com/Lab41/sunny-side-up 
 
-RUN rm -rf $CONDA_DIR/extensions/sunny-side-up/benchmarks && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/project && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/results && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/src
+RUN rm -rf /sunny-side-up/benchmarks && \
+    rm -rf /sunny-side-up/project && \
+    rm -rf /sunny-side-up/results && \
+    rm -rf /sunny-side-up/src
 
-RUN rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/caffe-cuda && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/itorch && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/keras-cpu && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/keras-cuda && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/mechanical-turk && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/neon-cuda && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/neon-cuda7.5 && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/pylearn2 && \
-    rm -rf $CONDA_DIR/extensions/sunny-side-up/frameworks/docker/sentiment-ml
+RUN rm -rf /sunny-side-up/frameworks/docker/caffe-cuda && \
+    rm -rf /sunny-side-up/frameworks/docker/itorch && \
+    rm -rf /sunny-side-up/frameworks/docker/keras-cpu && \
+    rm -rf /sunny-side-up/frameworks/docker/keras-cuda && \
+    rm -rf /sunny-side-up/frameworks/docker/mechanical-turk && \
+    rm -rf /sunny-side-up/frameworks/docker/neon-cuda && \
+    rm -rf /sunny-side-up/frameworks/docker/neon-cuda7.5 && \
+    rm -rf /sunny-side-up/frameworks/docker/pylearn2 && \
+    rm -rf /sunny-side-up/frameworks/docker/sentiment-ml
 
+RUN export PATH=$PATH:/sunny-side-up
 #        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
 EXPOSE    7077        8080              8081              6066    8888 
 
