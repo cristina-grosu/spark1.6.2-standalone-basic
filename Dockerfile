@@ -114,7 +114,7 @@ RUN jq --arg v "$CONDA_DIR/envs/python3/bin/python" \
 #        $CONDA_DIR/envs/R/share/jupyter/kernels/ir/kernel.json > /tmp/kernel.json && \
 #        mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/R/kernel.json
 
-RUN cp $CONDA_DIR/pkgs/r-irkernel-0.6.1-r3.3.1_0/share/jupyter/kernels/ir/kernel.json $CONDA_DIR/share/jupyter/kernels/ir/kernel.json   
+#RUN cp $CONDA_DIR/pkgs/r-irkernel-0.6.1-r3.3.1_0/share/jupyter/kernels/ir/kernel.json $CONDA_DIR/share/jupyter/kernels/ir/kernel.json   
 
 #        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
 EXPOSE    7077        8080              8081              6066    8888 
