@@ -85,6 +85,8 @@ RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
 
 RUN $CONDA_DIR/bin/conda config --add channels r
 RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/R \
+    'r' \
+    'r-essentials' \
     'r-base' \
     'r-irkernel' \
     'r-ggplot2' \
