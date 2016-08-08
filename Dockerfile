@@ -84,8 +84,8 @@ RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
     && $CONDA_DIR/bin/conda clean -yt
 
 RUN $CONDA_DIR/bin/conda config --add channels r
-RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/ir r && \
-    $CONDA_DIR/bin/conda install --channel r r \
+RUN $CONDA_DIR/bin/conda install --yes \
+    'r' \
     'r-essentials' \
     'r-base' \
     'r-irkernel' \
@@ -93,17 +93,6 @@ RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/ir r && \
     'r-rcurl' 
     
 RUN $CONDA_DIR/bin/conda clean -yt
-
-#RUN $CONDA_DIR/bin/conda config --add channels r
-#RUN $CONDA_DIR/bin/conda install --yes \
-#    'r' \
-#    'r-essentials' \
-#    'r-base' \
-#    'r-irkernel' \
-#    'r-ggplot2' \
-#    'r-rcurl' 
-    
-#RUN $CONDA_DIR/bin/conda clean -yt
     
 RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
 COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
