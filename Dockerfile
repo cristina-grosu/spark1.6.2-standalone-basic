@@ -29,9 +29,9 @@ ENV PATH $CONDA_DIR/bin:$PATH
 # Install Miniconda2
 RUN cd /opt && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda2-4.1.11-Linux-x86_64.sh && \
-    /bin/bash Miniconda2-4.1.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda2-4.1.11-Linux-x86_64.sh && \
+    wget --quiet https://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
+    /bin/bash Anaconda2-4.1.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Anaconda2-4.1.1-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --yes conda
 
 # Install Jupyter notebook 
