@@ -24,12 +24,20 @@ ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 
 # Install Miniconda2
+#RUN cd /opt && \
+#    mkdir -p $CONDA_DIR && \
+#    wget --quiet https://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
+#    /bin/bash Anaconda2-4.1.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+#    rm Anaconda2-4.1.1-Linux-x86_64.sh && \
+#    $CONDA_DIR/bin/conda install --yes conda
+
 RUN cd /opt && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet https://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
-    /bin/bash Anaconda2-4.1.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Anaconda2-4.1.1-Linux-x86_64.sh && \
-    $CONDA_DIR/bin/conda install --yes conda
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.9.1-Linux-x86_64.sh && \
+    echo "6c6b44acdd0bc4229377ee10d52c8ac6160c336d9cdd669db7371aa9344e1ac3 *Miniconda3-3.9.1-Linux-x86_64.sh" | sha256sum -c - && \
+    /bin/bash Miniconda3-3.9.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-3.9.1-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda install --yes conda==3.14.1
 
 # Install Jupyter notebook 
 RUN $CONDA_DIR/bin/conda install --yes \
@@ -70,7 +78,8 @@ RUN $CONDA_DIR/bin/conda install --yes \
     
 RUN $CONDA_DIR/bin/conda clean -yt
 
-RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python3 python=3.5 \
+#Install Python2 packages
+RUN $CONDA_DIR/bin/conda create -p $CONDA_DIR/envs/python2 python=2.7 \
     'ipython' \
     'ipywidgets' \
     'pandas' \
@@ -94,19 +103,19 @@ RUN $CONDA_DIR/bin/conda clean -yt
 RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
 COPY kernel.json /opt/conda/share/jupyter/kernels/scala/
 
-RUN bash -c '. activate python3 && \
+RUN bash -c '. activate python2 && \
     python -m ipykernel.kernelspec --prefix=$CONDA_DIR && \
     . deactivate'
 
 RUN apk add jq
 
 # Set PYSPARK_HOME in the python2 spec
-RUN jq --arg v "$CONDA_DIR/envs/python3/bin/python" \
+RUN jq --arg v "$CONDA_DIR/envs/python2/bin/python" \
         '.["env"]["PYSPARK_PYTHON"]=$v' \
-        $CONDA_DIR/share/jupyter/kernels/python3/kernel.json > /tmp/kernel.json && \
-        mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python3/kernel.json
+        $CONDA_DIR/share/jupyter/kernels/python2/kernel.json > /tmp/kernel.json && \
+        mv /tmp/kernel.json $CONDA_DIR/share/jupyter/kernels/python2/kernel.json
         
-#        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter
-EXPOSE    7077        8080              8081              6066    8888 
+#        SparkMaster  SparkMasterWebUI  SparkWorkerWebUI REST     Jupyter Spark
+EXPOSE    7077        8080              8081              6066    8888      4040
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
