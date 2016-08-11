@@ -19,18 +19,12 @@ ADD entrypoint.sh /opt/entrypoint.sh
 RUN chmod 777 /opt/entrypoint.sh
 ADD spark-defaults.conf /opt/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf.template
 ADD spark-env.sh /opt/spark-1.6.2-bin-hadoop2.6/conf/spark-env.sh
+ADD core-site.xml.template /opt/spark-1.6.2-bin-hadoop2.6/conf/core-site.xml.template
 
 ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 
-# Install Miniconda2
-#RUN cd /opt && \
-#    mkdir -p $CONDA_DIR && \
-#    wget --quiet https://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh && \
-#    /bin/bash Anaconda2-4.1.1-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-#    rm Anaconda2-4.1.1-Linux-x86_64.sh && \
-#    $CONDA_DIR/bin/conda install --yes conda
-
+# Install Miniconda3
 RUN cd /opt && \
     mkdir -p $CONDA_DIR && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.9.1-Linux-x86_64.sh && \
@@ -53,8 +47,6 @@ ENV PATH ${PATH}:${SBT_HOME}/bin
 # Install sbt
 RUN curl -sL "http://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz" | gunzip | tar -x -C /usr/local && \
     echo -ne "- with sbt $SBT_VERSION\n" >> /root/.built
-
-RUN apk add git
 
 RUN cd /tmp && \
     curl -sL "http://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz" | gunzip | tar -x -C /usr/local && \
