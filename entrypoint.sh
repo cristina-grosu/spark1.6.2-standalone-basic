@@ -24,6 +24,10 @@ if [ "$SPARK_WORKER_WEBUI_PORT" = "" ]; then
   SPARK_WORKER_WEBUI_PORT=8081
 fi
 
+if [ "$SPARK_UI_PORT" = "" ]; then
+  SPARK_UI_PORT=4040
+fi
+
 if [ "$SPARK_WORKER_PORT" = "" ]; then
   SPARK_WORKER_PORT=8581
 fi
@@ -40,8 +44,13 @@ if [ "$SPARK_MASTER_HOSTNAME" = "" ]; then
   SPARK_MASTER_HOSTNAME=`hostname -f`
 fi
 
+if [ "$HDFS_HOSTNAME" != "" ]; then
+ HADOOP_CONF_DIR="/opt/spark-1.6.2-bin-hadoop2.6/conf"
+ sed "s/HOSTNAME_MASTER/$SPARK_MASTER_HOSTNAME/" /opt/spark-1.6.2-bin-hadoop2.6/conf/core-site.xml.template > /opt/spark-1.6.2-bin-hadoop2.6/conf/core-site.xml 
+fi
 
 sed "s/HOSTNAME_MASTER/$SPARK_MASTER_HOSTNAME/" /opt/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf.template > /opt/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf
+sed "s/SPARK_UI_PORT/$SPARK_UI_PORT/" /opt/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf > /opt/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf
 
 SPARK_MASTER_URL="spark://$SPARK_MASTER_HOSTNAME:$SPARK_MASTER_PORT"
 echo "Using SPARK_MASTER_URL=$SPARK_MASTER_URL"
